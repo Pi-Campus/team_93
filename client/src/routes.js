@@ -9,7 +9,6 @@ import Paper from "@material-ui/core/Paper";
 
 /* START MY VIEWS IMPORT */
 
-
 /* END MY VIEWS IMPORT */
 
 // CUSTOM VIEWS
@@ -29,18 +28,16 @@ class Routes extends Component {
               <Route exact path="/login" component={Login} />
               <PrivateRoute exact path="/" component={Home} />
               <PrivateRoute exact path="/profile" component={Profile} />
-              <PrivateRoute exact path="/users/:id" component={UserEdit} roles={["ADMIN"]}/>
-              <PrivateRoute exact path="/users" component={UserList} roles={["ADMIN"]}/>
-              
+              <PrivateRoute exact path="/users/:id" component={UserEdit} roles={["ADMIN"]} />
+              <PrivateRoute exact path="/users" component={UserList} roles={["ADMIN"]} />
+
               {/* CUSTOM VIEWS */}
 
-              <PrivateRoute exact path="/home" component={Home} />
+              <Route exact path="/home" component={Home} />
 
               {/* START MY VIEWS */}
 
-
-             {/* END MY VIEWS */}
-
+              {/* END MY VIEWS */}
             </div>
           </Paper>
         </Fragment>
