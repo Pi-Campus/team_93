@@ -24,13 +24,12 @@ import SecurityController from "../controllers/SecurityController";
 // Start Import Controllers
 
 // Database
-import Database_Pihack_db from "./Database_Pihack_db.js";
+// import Database_Pihack_db from "./Database_Pihack_db.js";
 
 // Controllers
 import UserController from "../controllers/Pihack_db/UserController";
 
 // End Import Controllers
-
 
 class Server {
   constructor() {
@@ -47,8 +46,8 @@ class Server {
     );
 
     // Start Init Database
-		Database_Pihack_db.init();
- // End Init Database
+    // Database_Pihack_db.init();
+    // End Init Database
 
     // Add parser
     this.app.use(bodyParser.json());
@@ -61,11 +60,7 @@ class Server {
 
     // Swagger
     const swaggerDocument = yaml.load("./swagger.yaml");
-    this.app.use(
-      properties.api + "/docs",
-      swaggerUi.serve,
-      swaggerUi.setup(swaggerDocument)
-    );
+    this.app.use(properties.api + "/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     // Redirect frontend
     this.app.use("*", (req, res, next) => {
@@ -74,14 +69,7 @@ class Server {
         if (!url.startsWith("/api/") && url.indexOf(".") == -1) {
           res
             .status(200)
-            .sendFile(
-              path.resolve(
-                __dirname +
-                  "//..//" +
-                  properties.publicPath.replace(/\//g, "//") +
-                  "//index.html"
-              )
-            );
+            .sendFile(path.resolve(__dirname + "//..//" + properties.publicPath.replace(/\//g, "//") + "//index.html"));
         } else {
           next();
         }
@@ -89,27 +77,22 @@ class Server {
         next();
       }
     });
-    
+
     // Start App Server
     const server = http.Server(this.app);
     this.app.use(express.static(properties.publicPath));
 
     await server.listen(properties.port);
     Logger.info("Server started on port " + properties.port);
-    Logger.info(
-      "Swagger docs at http://localhost:" +
-        properties.port +
-        properties.api +
-        "/docs"
-    );
+    Logger.info("Swagger docs at http://localhost:" + properties.port + properties.api + "/docs");
 
     // Import controllers
     const router = express.Router();
     SecurityController.init(router);
 
     // Start Init Controllers
-		UserController.init(router);
-		 // End Init Controllers
+    UserController.init(router);
+    // End Init Controllers
 
     this.app.use("/", router);
   }
